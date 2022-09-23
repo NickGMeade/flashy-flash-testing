@@ -14,14 +14,14 @@ const supabase = createClient(
 );
 
 /**
- * Function to get the data from one appointment
+ * Function to get the data for one card
  * 
- * @param {*} id the id form a appointment
- * @returns appointment data
+ * @param {*} id the card id
+ * @returns card data
  */
-export async function getAppointmentData(id) {
+export async function getCardData(id) {
   console.log('👀 for id:', id);
-  const { data, error } = await supabase.from('appointments').select('*').eq('id', id);
+  const { data, error } = await supabase.from('cards').select('*').eq('id', id);
   if (error) console.log('query error', error);
   else return data;
 }
@@ -30,42 +30,26 @@ export async function getAppointmentData(id) {
  * function to read all the appointments
  * @returns an array of appointments
  */
-export async function getAppointmentsData() {
-  const { data, error } = await supabase.from('appointments').select('*');
+export async function getCardsData() {
+  const { data, error } = await supabase.from('cards').select('*');
   if (error) console.log('query error', error);
   else return data;
 }
 
 /**
- * Function to get the timeslot number
- * 
- * @param {*} timeSlotNumber the id of a timeSlot
- * @returns an specific timeslot
- */
-async function getTimeslot(timeSlotNumber){
-  console.log('👀 for id:', timeSlotNumber);
-  const { data, error } = await supabase.from('timeslot').select('id').eq('nr', timeSlotNumber);
-  if (error) console.log('query error', error);
-  else return data;
-}
-
-/**
- * Function to write a specific appointment
- * @param {*} appointment 
+ * Function to write a specific card
+ * @param {*} card 
  * @returns 
  */
-export async function setAppointmentData(appointment) {
+export async function setCardData(card) {
   // find the id
-  const timeSlotId = await getTimeslot(appointment.timeslot)
-  console.log('timeSlotId', timeSlotId[0].id);
-  const { data, error } = await supabase.from('appointments').insert([
+  const { data, error } = await supabase.from('cards').insert([
     {
-      date: appointment.date,
-      timeslot: timeSlotId[0].id,
-      state: 'unchecked',
-      pet: appointment.pet,
+      word: card.word,
+      translation: card.translation,
     },
   ]);
   if (error) console.log('Error', error);
   else return data;
 }
+

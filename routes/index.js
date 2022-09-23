@@ -1,25 +1,21 @@
 import express from 'express';
-import cors from 'cors';
+import cors from 'cors'; 
 const router = express.Router();
-import { getPets } from '../controllers/petsController.js';
 import {
-  getAppointment,
-  setAppointment,
-  getAppointments,
-} from '../controllers/appointmentController.js';
+  getCard,
+  setCard,
+  getCards,
+} from '../controllers/cardController.js';
 
 // root level route, this one is optional
 router.get('/', cors(), (req, res, next) => {
   res.json('Welcome to your local veterinarian 🐶');
 });
 
-//these routes are not that logical, and are here for testing supabase and google sheets api
-router.get('/pets', cors(), getPets);
-
 /**
- * all appointments routes
+ * all cards routes
  */
-router.options('/appointments', (req, res, next) => {
+router.options('/cards', (req, res, next) => {
   //set header before response
   res.header({
     allow: 'GET, POST, OPTIONS',
@@ -31,23 +27,23 @@ router.options('/appointments', (req, res, next) => {
   res.sendStatus(200);
 });
 
-// get a collection of all the appointments and ou can use a query
-router.get('/appointments', cors(), getAppointments);
+// get a collection of all the cards and ou can use a query
+router.get('/cards', cors(), getCards);
 
 // get an individual appointment
-router.get('/appointments/:id', cors(), getAppointment);
+router.get('/cards/:id', cors(), getCard);
 
 // post a route using the middleware for reading the body
-router.post('/appointments', cors(), setAppointment);
+router.post('/cards', cors(), setCard);
 
-// delete an individual appointment
-// TODO: not implemented yet
-router.delete('/appointments/:id', cors(), (req, res, next) => {
-  const appointment = req.params.appointment;
-  res.json({
-    title: 'deleted',
-    message: `oops ${appointment} was deleted accidentally 🥺`,
-  });
-});
+// // delete an individual appointment
+// // TODO: not implemented yet
+// router.delete('/cards/:id', cors(), (req, res, next) => {
+//   const card = req.params.card;
+//   res.json({
+//     title: 'deleted',
+//     message: `oops ${card} was deleted accidentally 🥺`,
+//   });
+// });
 
 export default router;
